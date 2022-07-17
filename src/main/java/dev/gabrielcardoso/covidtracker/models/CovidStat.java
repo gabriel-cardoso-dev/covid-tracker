@@ -5,6 +5,7 @@ public class CovidStat {
     private String state;
     private String country;
     private int latestTotalCases;
+    private int diffFromPreviousDay;
 
     public String getState() {
         return state;
@@ -28,6 +29,14 @@ public class CovidStat {
 
     public void setLatestTotalCases(int latestTotalCases) {
         this.latestTotalCases = latestTotalCases;
+    }
+
+    public int getDiffFromPreviousDay() {
+        return diffFromPreviousDay;
+    }
+
+    public void setDiffFromPreviousDay(int diffFromPreviousDay) {
+        this.diffFromPreviousDay = diffFromPreviousDay;
     }
 
     @Override

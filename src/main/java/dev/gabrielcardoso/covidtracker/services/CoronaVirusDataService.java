@@ -24,9 +24,9 @@ public class CoronaVirusDataService {
     List<CovidStat> allCovidStats = new ArrayList<>();
 
     @PostConstruct
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/30 * * * * *")
     public void fetchCoronaVirusData() throws IOException, InterruptedException {
-        System.out.println("Fetching Data...");
+        //System.out.println("Fetching Data...");
         List<CovidStat> newCovidStats = new ArrayList<>();
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpRequest httpRequest = HttpRequest.newBuilder()
@@ -39,10 +39,17 @@ public class CoronaVirusDataService {
             CovidStat covidStat = new CovidStat();
             covidStat.setState(csvRecord.get(0));
             covidStat.setCountry(csvRecord.get(1));
-            covidStat.setLatestTotalCases(Integer.parseInt(csvRecord.get(csvRecord.size() - 1)));
+            int latestCases = Integer.parseInt(csvRecord.get(csvRecord.size() - 1));
+            covidStat.setLatestTotalCases(latestCases);
+            int previousCases = Integer.parseInt(csvRecord.get(csvRecord.size() - 2));
+            covidStat.setDiffFromPreviousDay(latestCases - previousCases);
             newCovidStats.add(covidStat);
         }
         allCovidStats = newCovidStats;
-        System.out.println(allCovidStats.toString());
+        //System.out.println(allCovidStats.toString());
+    }
+
+    public List<CovidStat> getAllCovidStats() {
+        return allCovidStats;
     }
 }
